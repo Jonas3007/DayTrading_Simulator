@@ -56,6 +56,5 @@
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "cmake.sourceDirectory": "/home/korman4/development/DayTrading_Sim",
-  "cmake.buildDirectory": "/home/korman4/development/DayTrading_Sim/build"
+  "cmake.sourceDirectory": "/home/korman4/development/DayTrading_Sim/frontend/DayTrader"
 }
