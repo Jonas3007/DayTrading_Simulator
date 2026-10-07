@@ -21,6 +21,8 @@ qt_add_qml_module(appDayTrader
     URI DayTrader
     QML_FILES
         Main.qml
+        Theme/LightColors.qml
+        Theme/DarkColors.qml
 
     NO_CACHEGEN
 )
