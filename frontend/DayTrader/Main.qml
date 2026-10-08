@@ -15,6 +15,16 @@ ApplicationWindow {
     property bool lightMode: Application.styleHints.colorScheme === Qt.Light
     property QtObject colors: lightMode ? lightColors : darkColors
 
+    property int navBarHeight: 64
+    property int buttonHeight: 40
+    property int buttonWidth: 100
+    property string accountBalance: "50.000,00"
+
+    property string profitString: "0,00"
+    property bool profitPositive: true
+    property color profitColor: profitPositive ? "green" : "red"
+
+
     LightColors {
         id: lightColors
     }
@@ -85,6 +95,7 @@ ApplicationWindow {
                                                : qsTr("\u263C  Light mode")
                         Layout.alignment: Qt.AlignRight
                         Layout.row:2
+                        
 
                         contentItem: Text {
                             text: screenModeButton.text
@@ -95,8 +106,8 @@ ApplicationWindow {
                         }
 
                         background: Rectangle {
-                            implicitWidth: 100
-                            implicitHeight: 40
+                            implicitWidth: buttonWidth
+                            implicitHeight: buttonHeight
                             radius: 4
                             color: window.colors.surface
                             border.color: window.colors.border
@@ -109,11 +120,9 @@ ApplicationWindow {
             }
         }
 
-
         // #####################################
         // Left Column where the graphs are shown 
         // #####################################
-    
 
         ColumnLayout {
 
@@ -183,15 +192,48 @@ ApplicationWindow {
                         GridLayout {
                             id: balanceAndProfitGrid
                             columns: 2
+                            rows: 2
 
                             Label {
+                                Layout.column: 0
                                 id: balanceLabel
+                                Layout.topMargin: 10
+                                Layout.leftMargin: 8
                                 text: "Balance"
+                                color: window.colors.strongText
+                                font.pixelSize: 16
+                                
                             }
 
-                            Label {
-                                id: profitInPercent
-                                text: "Profit in %"
+                            Rectangle {
+                                id: accountBalanceDisplay
+                                Layout.column: 1
+                                Layout.row: 1
+                                Layout.leftMargin: 8
+                                Text{
+                                    anchors.left: parent.left
+                                    text: accountBalance
+                                    color: window.colors.strongText
+                                    font.pixelSize: 26
+                                    font.bold: true
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+                                
+                            }
+                            Rectangle{
+                                id : profitDisplay
+                                Layout.column: 1
+                                Layout.row: 1
+                                color: profitColor
+                                radius: 4
+                                opacity: 0.2
+
+                                Text{
+                                    text: profitPositive ? "+" + profitString + " %" : "-" + profitString + " %"
+                                    color: profitColor
+                                }
+                                
                             }
                         }
                     }
@@ -219,10 +261,20 @@ ApplicationWindow {
                             rows: 2
 
                             RoundButton {
-                                Layout.preferredWidth: 100
+                                id: buyButton
+                                Layout.preferredWidth: buttonWidth
+                                Layout.preferredHeight: buttonHeight
                                 Layout.row: 0
                                 text: "Buy"
                                 radius: 4
+                                background: Rectangle {
+                                    radius: buyButton.radius
+                                    color: window.colors.greenAccent
+                                    opacity: buyButton.down ? 0.75 : 1
+                                    scale: buyButton.down ? 0.96 : 1
+                                    Behavior on opacity { NumberAnimation { duration: 100 } }
+                                    Behavior on scale { NumberAnimation { duration: 100 } }
+                                }
                                 contentItem: Text {
                                     text: "Buy"
                                     color: "white"
@@ -230,17 +282,24 @@ ApplicationWindow {
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
                                 }
-                                background: Rectangle {
-                                    radius: 4
-                                    color: window.colors.greenAccent
-                                }
+                                onClicked: console.log("Buy clicked")
                             }
                             RoundButton {
-                                Layout.preferredWidth: 100
+                                id: sellButton
+                                Layout.preferredWidth: buttonWidth
+                                Layout.preferredHeight: buttonHeight
                                 Layout.row: 0
                                 Layout.column: 1
                                 text: "Sell"
                                 radius: 4
+                                background: Rectangle {
+                                    radius: sellButton.radius
+                                    color: window.colors.redAccent
+                                    opacity: sellButton.down ? 0.75 : 1
+                                    scale: sellButton.down ? 0.96 : 1
+                                    Behavior on opacity { NumberAnimation { duration: 100 } }
+                                    Behavior on scale { NumberAnimation { duration: 100 } }
+                                }
                                 contentItem: Text {
                                     text: "Sell"
                                     color: "white"
@@ -248,24 +307,43 @@ ApplicationWindow {
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
                                 }
-                                background: Rectangle {
-                                    radius: 4
-                                    color: window.colors.redAccent
-                                }
+                                onClicked: console.log("Sell clicked")
                             }
                             RoundButton {
-                                Layout.preferredWidth: 100
+                                id: reverseButton
+                                Layout.preferredWidth: buttonWidth
                                 Layout.row: 1
                                 Layout.column: 0
                                 text: "Reverse"
+                                Layout.preferredHeight: buttonHeight
                                 radius: 4
+                                background: Rectangle {
+                                    radius: reverseButton.radius
+                                    color: window.colors.accent
+                                    opacity: reverseButton.down ? 0.75 : 1
+                                    scale: reverseButton.down ? 0.96 : 1
+                                    Behavior on opacity { NumberAnimation { duration: 100 } }
+                                    Behavior on scale { NumberAnimation { duration: 100 } }
+                                }
+                                onClicked: console.log("Reverse clicked")
                             }
                             RoundButton {
-                                Layout.preferredWidth: 100
+                                id: flatButton
+                                Layout.preferredWidth: buttonWidth
                                 Layout.row: 1
                                 Layout.column: 1
                                 text: "Flat"
+                                Layout.preferredHeight: buttonHeight
                                 radius: 4
+                                background: Rectangle {
+                                    radius: flatButton.radius
+                                    color: window.colors.accent
+                                    opacity: flatButton.down ? 0.75 : 1
+                                    scale: flatButton.down ? 0.96 : 1
+                                    Behavior on opacity { NumberAnimation { duration: 100 } }
+                                    Behavior on scale { NumberAnimation { duration: 100 } }
+                                }
+                                onClicked: console.log("Flat clicked")
                             }
                         }
                     }
@@ -275,30 +353,3 @@ ApplicationWindow {
     }
 }
 
-
-
-
-                    // Button {
-                    //     id: button1
-                    //     text: window.lightMode ? qsTr("\u263D  Dark mode")
-                    //                            : qsTr("\u263C  Light mode")
-                    //     Layout.bottomMargin: 16
-                    //     Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-                    //
-                    //     contentItem: Text {
-                    //         text: button1.text
-                    //         color: window.lightMode ? window.light : window.dark
-                    //         font: button1.font
-                    //         horizontalAlignment: Text.AlignHCenter
-                    //         verticalAlignment: Text.AlignVCenter
-                    //     }
-                    //
-                    //     background: Rectangle {
-                    //         implicitWidth: 120
-                    //         implicitHeight: 36
-                    //         radius: 8
-                    //         color: window.lightMode ? window.dark : window.light
-                    //     }
-                    //
-                    //     onClicked: window.lightMode = !window.lightMode
-                    // }
