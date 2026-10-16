@@ -145,7 +145,7 @@ ApplicationWindow {
 
         // #####################################
         // Right Column where the balance and 
-        //buttons are shown
+        // buttons are shown
         // #####################################
 
         ColumnLayout {
@@ -177,7 +177,7 @@ ApplicationWindow {
                     Rectangle {
                         id: balanceAndProfitRectangle
                         Layout.fillWidth: true
-                        Layout.preferredHeight: grid.height * 0.4
+                        Layout.preferredHeight: grid.height * 0.3
                         
                         // Spacing to separate this rectangle from others
                         Layout.topMargin: 4
@@ -238,11 +238,15 @@ ApplicationWindow {
                         }
                     }
 
-                    // Grid Layout for the Buttons Buy, Sell, Reverse and Flat
+                    ///
+                        // If you want to add another section in the right column between StockDisplay and Account Display, this is the spot
+                    /// 
+
+                    // Stock Operations Area
                     Rectangle{
-                        id: buttonsRectangle
+                        id: stockOperationsArea
                         Layout.fillWidth: true
-                        Layout.preferredHeight: grid.height * 0.6
+                        Layout.preferredHeight: grid.height * 0.7 // Set the height of the buttons rectangle relative to the grid height
 
                         Layout.topMargin: 4
                         Layout.bottomMargin: 4
@@ -253,6 +257,24 @@ ApplicationWindow {
                         radius: 4  // makes the corners rounded
                         color: window.colors.surface
 
+                            // Stock Information Display
+                            GridLayout{
+                                id: stockInfoGrid
+                                columns: 2
+                                rows: 2
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 100
+
+                                    Rectangle{
+                                        Layout.column: 0
+                                        Layout.row: 0
+                                        Layout.preferredWidth: 100
+                                        Layout.preferredHeight: 100
+                                        color: red
+                                    }
+                            }
+
+                            // Grid Layout for the Buttons Buy, Sell, Reverse and Flat
                             GridLayout {
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
