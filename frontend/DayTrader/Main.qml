@@ -24,6 +24,9 @@ ApplicationWindow {
     property bool profitPositive: true
     property color profitColor: profitPositive ? "green" : "red"
 
+    property string stockName: "Apple Inc."
+    property string stockSymbol: "AAPL"
+
 
     LightColors {
         id: lightColors
@@ -46,7 +49,6 @@ ApplicationWindow {
         //
 
         Rectangle {
-            id: navBar
             color: window.colors.surface
             Layout.row: 0
             Layout.column: 0
@@ -54,7 +56,6 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
             RowLayout {
-                id: navRow
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 anchors.verticalCenter: parent.verticalCenter
@@ -89,8 +90,8 @@ ApplicationWindow {
                     Layout.fillWidth: true
                 }
 
+                // Screen mode toggle button
                 Button {
-                        id: screenModeButton
                         text: window.lightMode ? qsTr("\u263D  Dark mode")
                                                : qsTr("\u263C  Light mode")
                         Layout.alignment: Qt.AlignRight
@@ -98,16 +99,16 @@ ApplicationWindow {
                         
 
                         contentItem: Text {
-                            text: screenModeButton.text
+                            text: parent.text
                             color: window.colors.text
-                            font: screenModeButton.font
+                            font: parent.font
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }
 
                         background: Rectangle {
-                            implicitWidth: buttonWidth
-                            implicitHeight: buttonHeight
+                            implicitWidth: window.buttonWidth
+                            implicitHeight: window.buttonHeight
                             radius: 4
                             color: window.colors.surface
                             border.color: window.colors.border
@@ -125,8 +126,6 @@ ApplicationWindow {
         // #####################################
 
         ColumnLayout {
-
-            id: leftColumn
             Layout.row: 1
             Layout.column: 0
             Layout.preferredWidth: grid.width * 0.80
@@ -134,8 +133,8 @@ ApplicationWindow {
             Layout.fillHeight: true
 
 
+            // Graph display area
             Rectangle {
-                id: graphDisplay
                 color: window.colors.background
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -159,7 +158,6 @@ ApplicationWindow {
 
 
             Rectangle {
-                id: backgroundRectangle_right
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -168,14 +166,12 @@ ApplicationWindow {
 
                 // Column to align all the elements in the right column
                 ColumnLayout {
-                    id: rightColumnLayout
                     anchors.fill: parent
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
 
                     // Grid Layout to Display Balance and Profit in Percent
                     Rectangle {
-                        id: balanceAndProfitRectangle
                         Layout.fillWidth: true
                         Layout.preferredHeight: grid.height * 0.3
                         
@@ -190,13 +186,11 @@ ApplicationWindow {
                         color: window.colors.surface
 
                         GridLayout {
-                            id: balanceAndProfitGrid
                             columns: 2
                             rows: 2
 
                             Label {
                                 Layout.column: 0
-                                id: balanceLabel
                                 Layout.topMargin: 10
                                 Layout.leftMargin: 8
                                 text: "Balance"
@@ -244,7 +238,6 @@ ApplicationWindow {
 
                     // Stock Operations Area
                     Rectangle{
-                        id: stockOperationsArea
                         Layout.fillWidth: true
                         Layout.preferredHeight: grid.height * 0.7 // Set the height of the buttons rectangle relative to the grid height
 
@@ -259,18 +252,61 @@ ApplicationWindow {
 
                             // Stock Information Display
                             GridLayout{
-                                id: stockInfoGrid
+                                anchors.top: parent.top
+                                anchors.topMargin: 10
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                
                                 columns: 2
                                 rows: 2
                                 Layout.fillWidth: true
-                                Layout.preferredHeight: 100
+                                
 
-                                    Rectangle{
+                                    // Displays the name of the stock
+                                    Label{
+                                        id: stockNameDisplay
                                         Layout.column: 0
                                         Layout.row: 0
-                                        Layout.preferredWidth: 100
-                                        Layout.preferredHeight: 100
-                                        color: red
+
+                                        Layout.leftMargin: 8
+                                        Layout.preferredWidth: rightColumn.width * 0.45
+                                        Layout.preferredHeight: buttonHeight
+
+                                        Text {
+                                            anchors.fill: parent
+                                            text: stockName
+                                            font.pixelSize: 20
+                                            font.bold: true
+                                            color: window.colors.strongText
+                                            horizontalAlignment: Text.AlignHCenter
+                                            verticalAlignment: Text.AlignVCenter
+                                        }
+                                        background: Rectangle {
+                                            color: window.colors.surface
+                                        }
+                                    }
+                                
+
+                                    Label{
+                                        id: stockSymbolDisplay
+                                        Layout.column: 1
+                                        Layout.row: 0
+
+                                        Layout.rightMargin: 4
+                                        Layout.preferredWidth: rightColumn.width * 0.45
+                                        Layout.preferredHeight: buttonHeight
+
+                                        Text {
+                                            text: stockSymbol
+                                            font.pixelSize: 20
+                                            font.bold: true
+                                            color: window.colors.strongText
+                                            horizontalAlignment: Text.AlignHCenter
+                                            verticalAlignment: Text.AlignVCenter
+                                        }
+                                        background: Rectangle {
+                                            color: window.colors.surface
+                                        }
                                     }
                             }
 
@@ -374,4 +410,3 @@ ApplicationWindow {
         }
     }
 }
-
