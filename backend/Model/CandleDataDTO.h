@@ -1,7 +1,7 @@
 #pragma once 
 #include <ctime>
 
-struct TradeDataDTO {
+struct CandleDataDTO {
     double open;
     double close;
     double high;

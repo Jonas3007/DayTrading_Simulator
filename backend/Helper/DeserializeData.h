@@ -1,12 +1,14 @@
 #pragma once
 #include <string>
 #include <ctime>
-#include "../Model/TimeDTO.h"
+#include "TimeDTO.h"
+#include "DataPackage.h"
 
 class DeserializeData
 {   
     public:
-
+        static DataPkg deserializePkg(std::string &data);
     private:
-        static TimeDTO DeserializeTime(const std::string& timeString);
+        static TimeDTO deserializeTime(const std::string& timeString);
+
 };

@@ -9,6 +9,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(dayTraderBackend
     main.cpp
     Helper/CalculateCandle.cpp
+    Helper/DeserializeData.cpp
 )
 
 target_include_directories(dayTraderBackend
