@@ -26,6 +26,10 @@ ApplicationWindow {
 
     property string stockName: "Apple Inc."
     property string stockSymbol: "AAPL"
+    property string stockPrice: "145,32"
+    property bool isStockpositive: true
+    property string stockChange: "2,45"
+    property color stockChangeColor: isStockpositive ? "green" : "red"
 
 
     LightColors {
@@ -186,6 +190,8 @@ ApplicationWindow {
                         color: window.colors.surface
 
                         GridLayout {
+                            anchors.left: parent.left
+                            anchors.right: parent.right
                             columns: 2
                             rows: 2
 
@@ -201,33 +207,54 @@ ApplicationWindow {
 
                             Rectangle {
                                 id: accountBalanceDisplay
-                                Layout.column: 1
+                                Layout.column: 0
                                 Layout.row: 1
                                 Layout.leftMargin: 8
-                                Text{
-                                    anchors.left: parent.left
+                                Layout.preferredWidth: rightColumn.width * 0.45
+                                Layout.preferredHeight: buttonHeight
+                                color: window.colors.surface
+
+                                Text {
+                                    anchors.fill: parent
                                     text: accountBalance
-                                    color: window.colors.strongText
-                                    font.pixelSize: 26
+                                    color: window.colors.text
+                                    font.pixelSize: 24
                                     font.bold: true
-                                    horizontalAlignment: Text.AlignHCenter
+                                    horizontalAlignment: Text.AlignLeft
                                     verticalAlignment: Text.AlignVCenter
                                 }
                                 
                             }
-                            Rectangle{
-                                id : profitDisplay
+                            Item {
+                                id: profitDisplay
                                 Layout.column: 1
                                 Layout.row: 1
-                                color: profitColor
-                                radius: 4
-                                opacity: 0.2
+                                Layout.preferredWidth: rightColumn.width * 0.45
+                                Layout.preferredHeight: 32
 
-                                Text{
-                                    text: profitPositive ? "+" + profitString + " %" : "-" + profitString + " %"
-                                    color: profitColor
+                                Rectangle {
+                                    anchors.right: parent.right
+                                    anchors.rightMargin: 10
+                                    width: 80
+                                    height: 32
+                                    radius: 4
+                                    color: Qt.rgba(
+                                               profitColor.r,
+                                               profitColor.g,
+                                               profitColor.b,
+                                               0.2
+                                           )
+
+                                    Text {
+                                        anchors.fill: parent
+                                        text: profitPositive ? "+" + profitString + " %" : "-" + profitString + " %"
+                                        color: profitColor
+                                        font.pixelSize: 16
+                                        font.bold: true
+                                        horizontalAlignment: Text.AlignHCenter
+                                        verticalAlignment: Text.AlignVCenter
+                                    }
                                 }
-                                
                             }
                         }
                     }
@@ -263,49 +290,86 @@ ApplicationWindow {
                                 
 
                                     // Displays the name of the stock
-                                    Label{
+                                    Rectangle {
                                         id: stockNameDisplay
                                         Layout.column: 0
                                         Layout.row: 0
-
                                         Layout.leftMargin: 8
                                         Layout.preferredWidth: rightColumn.width * 0.45
                                         Layout.preferredHeight: buttonHeight
+                                        color: window.colors.surface
 
                                         Text {
                                             anchors.fill: parent
                                             text: stockName
-                                            font.pixelSize: 20
-                                            font.bold: true
-                                            color: window.colors.strongText
-                                            horizontalAlignment: Text.AlignHCenter
+                                            color: window.colors.text
+                                            font.pixelSize: 16
+                                            horizontalAlignment: Text.AlignLeft
                                             verticalAlignment: Text.AlignVCenter
-                                        }
-                                        background: Rectangle {
-                                            color: window.colors.surface
                                         }
                                     }
                                 
-
-                                    Label{
+                                    Rectangle {
                                         id: stockSymbolDisplay
                                         Layout.column: 1
                                         Layout.row: 0
-
-                                        Layout.rightMargin: 4
                                         Layout.preferredWidth: rightColumn.width * 0.45
                                         Layout.preferredHeight: buttonHeight
+                                        color: window.colors.surface
 
                                         Text {
+                                            rightPadding: 10
+                                            anchors.fill: parent
                                             text: stockSymbol
-                                            font.pixelSize: 20
-                                            font.bold: true
-                                            color: window.colors.strongText
-                                            horizontalAlignment: Text.AlignHCenter
+                                            color: window.colors.text
+                                            font.pixelSize: 16
+                                            horizontalAlignment: Text.AlignRight
                                             verticalAlignment: Text.AlignVCenter
                                         }
-                                        background: Rectangle {
-                                            color: window.colors.surface
+                                    }
+
+                                    Label{
+                                        id: stockPriceLabel
+                                        Layout.column: 0
+                                        Layout.row: 1
+                                        Layout.leftMargin: 8
+                                        Layout.preferredWidth: rightColumn.width * 0.45
+                                        Layout.preferredHeight: buttonHeight
+                                        text: stockPrice
+                                        color: window.colors.text
+                                        font.bold: true
+                                        font.pixelSize: 24
+                                        horizontalAlignment: Text.AlignLeft
+                                        verticalAlignment: Text.AlignVCenter
+                                    }
+
+                                    Rectangle {
+                                        id: stockChangeDisplay
+                                        Layout.column: 1
+                                        Layout.row: 1
+                                        Layout.leftMargin: 8
+                                        Layout.alignment: Qt.AlignRight
+                                        Layout.rightMargin: 10
+                                        Layout.preferredWidth: 80
+                                        Layout.preferredHeight: 32
+                                        radius: 4
+                                        color: Qt.rgba(
+                                                   stockChangeColor.r,
+                                                   stockChangeColor.g,
+                                                   stockChangeColor.b,
+                                                   0.2
+                                               )
+
+                                        Text {
+                                            anchors.fill: parent
+                                            text: isStockpositive
+                                                  ? "+" + stockChange + " %"
+                                                  : "-" + stockChange + " %"
+                                            color: stockChangeColor
+                                            font.pixelSize: 16
+                                            font.bold: true
+                                            horizontalAlignment: Text.AlignHCenter
+                                            verticalAlignment: Text.AlignVCenter
                                         }
                                     }
                             }
@@ -335,7 +399,7 @@ ApplicationWindow {
                                 }
                                 contentItem: Text {
                                     text: "Buy"
-                                    color: "white"
+                                    color: window.colors.text
                                     font.bold: true
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
@@ -360,7 +424,7 @@ ApplicationWindow {
                                 }
                                 contentItem: Text {
                                     text: "Sell"
-                                    color: "white"
+                                    color: window.colors.text
                                     font.bold: true
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
@@ -372,7 +436,13 @@ ApplicationWindow {
                                 Layout.preferredWidth: buttonWidth
                                 Layout.row: 1
                                 Layout.column: 0
-                                text: "Reverse"
+                                contentItem: Text {
+                                    text: "Reverse"
+                                    color: window.colors.text
+                                    font.bold: true
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                }
                                 Layout.preferredHeight: buttonHeight
                                 radius: 4
                                 background: Rectangle {
@@ -390,9 +460,15 @@ ApplicationWindow {
                                 Layout.preferredWidth: buttonWidth
                                 Layout.row: 1
                                 Layout.column: 1
-                                text: "Flat"
                                 Layout.preferredHeight: buttonHeight
                                 radius: 4
+                                contentItem: Text {
+                                    text: "Flat"
+                                    color: window.colors.text
+                                    font.bold: true
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                }
                                 background: Rectangle {
                                     radius: flatButton.radius
                                     color: window.colors.accent
