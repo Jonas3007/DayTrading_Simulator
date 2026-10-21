@@ -1,0 +1,11 @@
+{
+    "folders": [
+        {
+            "path": "frontend/DayTrader"
+        }
+    ],
+    "settings": {
+        "cmake.sourceDirectory": "${workspaceFolder}",
+        "cmake.buildDirectory": "${workspaceFolder}/../build"
+    }
+}
